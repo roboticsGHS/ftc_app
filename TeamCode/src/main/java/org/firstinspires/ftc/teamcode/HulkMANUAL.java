@@ -87,7 +87,8 @@ public class HulkMANUAL extends OpMode {
 
         liftArm = hardwareMap.dcMotor.get("liftArm");
 
-        grabber = hardwareMap.servo.get ("servo");
+        grabber = hardwareMap.servo.get("servo");
+        extend_servo = hardwareMap.crservo.get("extendServo");
 
         leftBack = hardwareMap.dcMotor.get("leftBack");
         rightBack = hardwareMap.dcMotor.get("rightBack");
