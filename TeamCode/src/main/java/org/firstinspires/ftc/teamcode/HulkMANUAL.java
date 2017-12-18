@@ -43,7 +43,7 @@ public class HulkMANUAL extends OpMode {
     //Servo servo2; //grabber
     CRServo extend_servo;
 
-    //OpticalDistanceSensor distance;
+    //OpticalDistanceSensor distance ;
     //ModernRoboticsI2cGyro gyro;
     //OpticalDistanceSensor lineFollower;
     //TouchSensor touchSensor;
