@@ -29,7 +29,7 @@ public class HulkMANUAL extends OpMode {
     final static double CLAW_MAX_RANGE  = 0.6;
 
     // position of the arm grabber.
-    //double servoPosition;
+    double servoPosition;
     double speed = .02;
     //double servoPosition2;
 
@@ -40,10 +40,10 @@ public class HulkMANUAL extends OpMode {
     DcMotor rightBack;
     DcMotor liftArm;
     Servo grabber;
-    //Servo servo2; //grabber
-    CRServo extend_servo;
+    CRServo extend_servo; //grabber
+    //CRServo extend_servo;
 
-    //OpticalDistanceSensor distance ;
+    //OpticalDistanceSensor distance;
     //ModernRoboticsI2cGyro gyro;
     //OpticalDistanceSensor lineFollower;
     //TouchSensor touchSensor;
@@ -99,15 +99,15 @@ public class HulkMANUAL extends OpMode {
         //colorSensor = hardwareMap.colorSensor.get("colorSensor");
         //gyro = (ModernRoboticsI2cGyro) hardwareMap.gyroSensor.get("gyro");
 
-        //servo2 = hardwareMap.servo.get("servo2");
-        //servo2.setPosition(servoPosition2);
+        //grabber = hardwareMap.servo.get("grabber");
+        //grabber.setPosition(servoPosition);
 
         //grabber = hardwareMap.grabber.get("grabber");
         //grabber.setPosition(servoPosition);
 
         // assign the starting position of the wrist and claw
-        //servoPosition = .4;
-        //servoPosition2 = .4;
+        servoPosition = .4;
+        //extendPosition = .4;
 
     }
 
@@ -144,6 +144,8 @@ public class HulkMANUAL extends OpMode {
         grabber_extend_value = Range.clip(grabber_extend_value,-1, 1);
         grabber_extend_value = (float)scaleInput(grabber_extend_value);
 
+        extend_servo.setPower(grabber_extend_value);
+
 
         // write the values to the motors
         rightBack.setPower(right_move_value);
@@ -158,7 +160,7 @@ public class HulkMANUAL extends OpMode {
 
 
         // update the position of the gripper arm
-       /* if (gamepad1.a)
+        if (gamepad1.a)
             // if the A button is pushed on gamepad1, increment the position of
             // the gripper grabber.
             servoPosition += speed;
@@ -169,19 +171,21 @@ public class HulkMANUAL extends OpMode {
 
         grabber.setPosition(servoPosition/2);
         servoPosition  = Range.clip(servoPosition, 0, 1);
-        */
-//        if (gamepad1.b)
-//            // if the X button is pushed on gamepad1, increment the position of
-//            // the griper grabber.
-//            servoPosition2 += speed;
-//
-//        else if (gamepad1.x)
-//            // if the Y button is pushed on5 gamepad1, decrease the position of
-//            // the gripper grabber.
-//            servoPosition2 -= speed;
 
-        //servo2.setPosition(servoPosition2/2);
-        //servoPosition2  = Range.clip(servoPosition2, 0, 1);
+        /*if (gamepad1.b)
+            // if the X button is pushed on gamepad1, increment the position of
+            // the griper grabber.
+            servoPosition2 += speed;
+//
+        else if (gamepad1.x)
+            // if the Y button is pushed on5 gamepad1, decrease the position of
+//            // the gripper grabber.
+        {
+            servoPosition2 -= speed;
+        }*/
+
+       //servo2.setPosition(servoPosition2/2);
+       //servoPosition2  = Range.clip(servoPosition2, 0, 1);
 
       /*
        * Send telemetry data back to driver station. Note that if we are using
@@ -199,6 +203,9 @@ public class HulkMANUAL extends OpMode {
         telemetry.addData("Text", "*** Robot Data***");
         telemetry.addData("left tgt pwr",  "left  pwr: " + String.format("%.2f", left_move_value));
         telemetry.addData("right tgt pwr", "right pwr: " + String.format("%.2f", right_move_value));
+
+        //grabber_extend_value
+        telemetry.addData("grabber_extend_value",  "grabber_extend_value: " + String.format("%.2f", grabber_extend_value));
 
     }
 
