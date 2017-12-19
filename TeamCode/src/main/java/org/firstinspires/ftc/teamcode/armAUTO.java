@@ -25,7 +25,7 @@ public class armAUTO extends LinearOpMode {
     Servo servo2; //grabbers
 
     public void moveForward(int time) throws InterruptedException {
-        leftMotor.setPower(-0.5);
+        leftMotor.setPower(0.5);
         rightMotor.setPower(-0.5);
         Thread.sleep(time);
     }
@@ -35,12 +35,8 @@ public class armAUTO extends LinearOpMode {
         leftMotor = hardwareMap.dcMotor.get("leftMotor");
 
         //Forward
-        leftMotor.setPower(-0.5);
-        rightMotor.setPower(-0.5);
-        Thread.sleep(2500);
-        leftMotor.setPower(0.0);
-        rightMotor.setPower(0.0);
-        Thread.sleep(100);
+        moveForward(2500);
+
     }
 
 }
