@@ -181,7 +181,7 @@ public class TriangleMANUAL extends OpMode {
         if (gamepad2.x)
             // if the LB button is pushed on5 gamepad2, decrease the position of
             // the gripper servo.
-            servoPosition += speed;
+            servoPosition -= speed;
         servo.setPosition(servoPosition/2);
         servoPosition  = Range.clip(servoPosition, 0, 1);
 
