@@ -178,7 +178,7 @@ public class TriangleMANUAL extends OpMode {
             // the gripper servo.
             servoPosition += speed;
 
-        if (gamepad2.x)
+        if (gamepad2.b)
             // if the LB button is pushed on5 gamepad2, decrease the position of
             // the gripper servo.
             servoPosition -= speed;
@@ -188,12 +188,12 @@ public class TriangleMANUAL extends OpMode {
         servo2.setPosition(servoPosition2/2);
         servoPosition2  = Range.clip(servoPosition2, 0, 1);
 
-        if (gamepad2.b)
+        if (gamepad2.a)
             // if the X button is pushed on gamepad1, increment the position of
             // the griper servo.
             servoPosition2 += speed;
 
-        else if (gamepad2.y)
+        else if (gamepad2.b)
             // if the Y button is pushed on5 gamepad1, decrease the position of
             // the gripper servo.
             servoPosition2 -= speed;

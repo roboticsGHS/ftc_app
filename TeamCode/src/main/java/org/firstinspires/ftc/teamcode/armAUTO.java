@@ -26,16 +26,47 @@ public class armAUTO extends LinearOpMode {
 
     public void moveForward(int time) throws InterruptedException {
         leftMotor.setPower(0.5);
+        rightMotor.setPower(0.5);
+        Thread.sleep(time);
+    }
+
+    public void moveRight(int time) throws InterruptedException {
+        leftLift.setPower(0.5);
+        rightLift.setPower(0.5);
+        Thread.sleep(time);
+    }
+    public void moveBackwards(int time) throws InterruptedException {
+        leftMotor.setPower(-0.5);
         rightMotor.setPower(-0.5);
+        Thread.sleep(time);
+    }
+    public void turnLeft (int time) throws InterruptedException {
+        rightMotor.setPower(0.5);
+        Thread.sleep(time);
+    }
+
+    public void turnRight(int time) throws InterruptedException {
+        leftMotor.setPower(0.5);
+        Thread.sleep(time);
+    }
+
+    public void releaseServo(int time) throws InterruptedException {
+        servo.setPosition(0.4);
         Thread.sleep(time);
     }
 
     public void runOpMode() throws InterruptedException {
         rightMotor = hardwareMap.dcMotor.get("rightMotor");
         leftMotor = hardwareMap.dcMotor.get("leftMotor");
+        leftLift = hardwareMap.dcMotor.get ("leftLift");
+        rightLift = hardwareMap.dcMotor.get ("rightLift");
+        servo = hardwareMap.servo.get ("servo");
+        servo2 = hardwareMap.servo.get ("servo2");
 
-        //Forward
-        moveForward(2500);
+        //Backwards
+        moveBackwards(2500);
+
+
 
     }
 

@@ -41,7 +41,6 @@ public class HulkMANUAL extends OpMode {
     DcMotor liftArm;
     Servo grabber;
     CRServo extend_servo; //grabber
-    //CRServo extend_servo;
 
     //OpticalDistanceSensor distance;
     //ModernRoboticsI2cGyro gyro;
@@ -123,8 +122,8 @@ public class HulkMANUAL extends OpMode {
         float left_move_value = gamepad1.left_stick_y;
         float right_move_value = gamepad1.right_stick_y;
 
-        float grabber_lift_pos = gamepad1.right_trigger;
-        float grabber_lift_neg = -gamepad1.left_trigger;
+        float grabber_lift_pos = gamepad2.right_trigger;
+        float grabber_lift_neg = -gamepad2.left_trigger;
 
         float grabber_extend_value = gamepad2.left_stick_y;
 
@@ -154,17 +153,17 @@ public class HulkMANUAL extends OpMode {
         rightFront.setPower(right_move_value);
         leftFront.setPower(left_move_value);
 
-        liftArm.setPower(grabber_lift_pos/2);
-        liftArm.setPower (grabber_lift_neg/2);
+        liftArm.setPower(grabber_lift_pos);
+        liftArm.setPower (grabber_lift_neg);
 
 
 
         // update the position of the gripper arm
-        if (gamepad1.a)
+        if (gamepad2.a)
             // if the A button is pushed on gamepad1, increment the position of
             // the gripper grabber.
             servoPosition += speed;
-        if (gamepad1.y)
+        if (gamepad2.y)
             // if the B button is pushed on5 gamepad1, decrease the position of
             // the gripper grabber.
             servoPosition -= speed;
