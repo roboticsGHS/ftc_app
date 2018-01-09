@@ -39,7 +39,7 @@ public class HulkMANUAL extends OpMode {
     DcMotor leftBack;
     DcMotor rightBack;
     DcMotor liftArm;
-    Servo grabber;
+    CRServo arm_servo;
     CRServo extend_servo; //grabber
 
     //OpticalDistanceSensor distance;
@@ -86,7 +86,7 @@ public class HulkMANUAL extends OpMode {
 
         liftArm = hardwareMap.dcMotor.get("liftArm");
 
-        grabber = hardwareMap.servo.get("servo");
+        arm_servo = hardwareMap.crservo.get("armServo");
         extend_servo = hardwareMap.crservo.get("extendServo");
 
         leftBack = hardwareMap.dcMotor.get("leftBack");
@@ -126,6 +126,7 @@ public class HulkMANUAL extends OpMode {
         float grabber_lift_neg = -gamepad2.left_trigger;
 
         float grabber_extend_value = gamepad2.left_stick_y;
+        float grabber_servo_arm = gamepad2.right_stick_y;
 
         // clip the right/left values so that the values never exceed +/- 1
         left_move_value = Range.clip(left_move_value, -1, 1);
@@ -143,7 +144,12 @@ public class HulkMANUAL extends OpMode {
         grabber_extend_value = Range.clip(grabber_extend_value,-1, 1);
         grabber_extend_value = (float)scaleInput(grabber_extend_value);
 
+        grabber_servo_arm = Range.clip(grabber_servo_arm,-1, 1);
+        grabber_servo_arm = (float)scaleInput(grabber_servo_arm);
+
         extend_servo.setPower(grabber_extend_value);
+        arm_servo.setPower (grabber_servo_arm);
+
 
 
         // write the values to the motors
@@ -157,7 +163,7 @@ public class HulkMANUAL extends OpMode {
         liftArm.setPower (grabber_lift_neg);
 
 
-
+        /*
         // update the position of the gripper arm
         if (gamepad2.a)
             // if the A button is pushed on gamepad1, increment the position of
@@ -170,12 +176,12 @@ public class HulkMANUAL extends OpMode {
 
         grabber.setPosition(servoPosition/2);
         servoPosition  = Range.clip(servoPosition, 0, 1);
-
+        /*
         /*if (gamepad1.b)
             // if the X button is pushed on gamepad1, increment the position of
             // the griper grabber.
             servoPosition2 += speed;
-//
+
         else if (gamepad1.x)
             // if the Y button is pushed on5 gamepad1, decrease the position of
 //            // the gripper grabber.
