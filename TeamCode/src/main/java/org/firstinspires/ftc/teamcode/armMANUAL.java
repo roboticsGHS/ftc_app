@@ -10,14 +10,7 @@ import com.qualcomm.robotcore.util.Range;
 //@Disabled
 public class armMANUAL extends OpMode {
 
-    /*
-     * Note: the configuration of the servos is such that
-     * as the arm servo approaches 0, the arm position moves up (away from the floor).
-     * Also, as the claw servo approaches 0, the claw opens up (drops the game element).
-     */
-    // TETRIX VALUES.
-    //final static double ARM_MIN_RANGE  = 0.20;
-    //final static double ARM_MAX_RANGE  = 0.90;
+
     final static double CLAW_MIN_RANGE  = 0.20;
     final static double CLAW_MAX_RANGE  = 0.6;
 
@@ -30,6 +23,8 @@ public class armMANUAL extends OpMode {
 
     DcMotor leftMotor;    //drive
     DcMotor rightMotor;   //drive
+    DcMotor leftFront;    //frontdrive
+    DcMotor rightFront;   //frontdrive
     DcMotor leftLift;
     DcMotor rightLift;
     DcMotor ClawArm;
@@ -62,19 +57,10 @@ public class armMANUAL extends OpMode {
        * configured your robot and created the configuration file.
        */
 
-      /*
-       * For the demo Tetrix K9 bot we assume the following,
-       *   There are two motors "motor_1" and "motor_2"
-       *   "motor_1" is on the right side of the bot.
-       *   "motor_2" is on the left side of the bot.
-       *
-       * We also assume that there are two servos "servo_1" and "servo_6"
-       *    "servo_1" controls the arm joint of the manipulator.
-       *    "servo_6" controls the claw joint of the manipulator.
-       */
-        //rightFrontMotor = hardwareMap.dcMotor.get("rightFrontMotor");
-        //leftFrontMotor = hardwareMap.dcMotor.get("leftFrontMotor");
-        //leftFrontMotor.setDirection(DcMotor.Direction.REVERSE);
+        rightFront = hardwareMap.dcMotor.get("rightFront");
+        leftFront = hardwareMap.dcMotor.get("leftFront");
+        leftFront.setDirection(DcMotor.Direction.REVERSE);
+
         leftMotor = hardwareMap.dcMotor.get("leftMotor");
         rightMotor = hardwareMap.dcMotor.get("rightMotor");
         rightMotor.setDirection(DcMotor.Direction.REVERSE);
@@ -116,19 +102,17 @@ public class armMANUAL extends OpMode {
        Gamepad 1
         */
         // note that if y equal -1 then joystick is pushed all of the way forward.
-        float left = gamepad1.left_stick_y;
-        float right = gamepad1.right_stick_y;
+        float left_move_value = gamepad1.left_stick_y;
+        float right_move_value = gamepad1.right_stick_y;
 
         float claw_pos = gamepad2.left_stick_y;
-        //claw_neg = gamepad2.left_stick_y;
-        //float claw_neg = gamepad2.left_stick_y;
 
         float lift_pos = gamepad1.right_trigger;
         float lift_neg = -gamepad1.left_trigger;
 
         // clip the right/left values so that the values never exceed +/- 1
-        left = Range.clip(left, -1, 1);
-        right = Range.clip(right, -1, 1);
+        left_move_value = Range.clip(left_move_value, -1, 1);
+        right_move_value = Range.clip(right_move_value, -1, 1);
 
         lift_pos = Range.clip(lift_pos, -1, 1);
         lift_neg = Range.clip(lift_neg, -1, 0);
@@ -141,9 +125,9 @@ public class armMANUAL extends OpMode {
 
         // scale the joystick value to make it easier to control
         // the robot more precisely at slower speeds.
-        left =  (float)scaleInput(left);
-        right = (float)scaleInput(right);
 
+        left_move_value =  (float)scaleInput(left_move_value);
+        right_move_value = (float)scaleInput(right_move_value);
 
         //left_2 =  (float)scaleInput(left_2);
         //right_2 = (float)scaleInput(right_2);
@@ -156,15 +140,12 @@ public class armMANUAL extends OpMode {
 
 
         // write the values to the motors
-        //rightFrontMotor.setPower(right);
-        //leftFrontMotor.setPower(left);
-        rightMotor.setPower(right);
-        leftMotor.setPower(left);
+        rightFront.setPower(right_move_value/2);
+        leftFront.setPower(left_move_value/2);
+        rightMotor.setPower(right_move_value/2);
+        leftMotor.setPower(left_move_value/2);
 
-        //rightMotor.setPower(right_2);
-        //leftMotor.setPower(left_2);
-
-        ClawArm.setPower(claw_pos/2);
+        ClawArm.setPower(claw_pos);
         //ClawArm.setPower(claw_neg);
 
         leftLift.setPower(lift_pos);
@@ -246,8 +227,8 @@ public class armMANUAL extends OpMode {
         }*/
 
         telemetry.addData("Text", "*** Robot Data***");
-        telemetry.addData("left tgt pwr",  "left  pwr: " + String.format("%.2f", left));
-        telemetry.addData("right tgt pwr", "right pwr: " + String.format("%.2f", right));
+        telemetry.addData("left tgt pwr",  "left  pwr: " + String.format("%.2f", left_move_value));
+        telemetry.addData("right tgt pwr", "right pwr: " + String.format("%.2f", right_move_value));
 
     }
 
