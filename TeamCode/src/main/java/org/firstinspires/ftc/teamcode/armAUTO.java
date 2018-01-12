@@ -67,17 +67,20 @@ public class armAUTO extends LinearOpMode {
         Thread.sleep(time);
     }
 
-    public void releaseServo(int time) throws InterruptedException {
-        servo.setPosition(0.4);
-        servo2.setPosition(0.4);
-        Thread.sleep(time);
+    public void OpenServo(double position) throws InterruptedException {
+        servo.setPosition(position);
+        servo2.setPosition(position);
     }
-    public void openServo(int time) throws InterruptedException {
-        servo.setPosition(0.2);
-        servo2.setPosition(0.2);
-        Thread.sleep(time);
+    public void closeServo() {
+        servo.setPosition(0.9); //left servo needs to be higher number to close
+        servo2.setPosition(0.1); //right servo needs to be a low number to close
     }
-
+    public void raiseArm() {
+        ClawArm.setPower(0.5);
+    }
+    public void lowerArm() {
+        ClawArm.setPower(-0.5);
+    }
     public void runOpMode() throws InterruptedException {
         rightMotor = hardwareMap.dcMotor.get("rightMotor");
         leftMotor = hardwareMap.dcMotor.get("leftMotor");
@@ -89,17 +92,19 @@ public class armAUTO extends LinearOpMode {
         servo2 = hardwareMap.servo.get ("servo2");
 
         //Grab Block
-        openServo(100);
+        closeServo();
+        //Raise Arm
+        //raiseArm (100);
         //Backwards/
-         moveBackwards(1350);
+         //moveBackwards(1350);
         //turnRight
-        turnRight(450);
+        //turnRight(450);
         //Forward
-        moveForward(700);
+       // moveForward(700);
         //dropping block
-        releaseServo(100);
+       // releaseServo();
         //Backwards
-        moveBackwards(100);
+      //  moveBackwards(100);
     }
 
 }

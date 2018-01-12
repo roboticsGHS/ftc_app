@@ -85,7 +85,7 @@ public class armMANUAL extends OpMode {
         servo.setPosition(servoPosition);
 
         // assign the starting position of the wrist and claw
-        servoPosition = .4;
+        servoPosition = 0.5;
         servoPosition2 = .4;
         //clawPosition = 0.1;
 
@@ -189,10 +189,10 @@ public class armMANUAL extends OpMode {
             servoPosition -= speed;
 
 
-        servo.setPosition(servoPosition/2);
+        servo.setPosition(servoPosition);
         servoPosition  = Range.clip(servoPosition, 0, 1);
 
-        servo2.setPosition(servoPosition2/2);
+        servo2.setPosition(servoPosition2);
         servoPosition2  = Range.clip(servoPosition2, 0, 1);
         if (gamepad1.b)
             // if the X button is pushed on gamepad1, increment the position of
