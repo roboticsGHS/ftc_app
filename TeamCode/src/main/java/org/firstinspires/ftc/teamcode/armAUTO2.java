@@ -13,8 +13,8 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Enables control of the robot via the gamepad
  */
 
-@Autonomous(name="armAUTO", group="armAUTO")
-public class armAUTO extends LinearOpMode {
+@Autonomous(name="armAUTO2", group="armAUTO2")
+public class armAUTO2 extends LinearOpMode {
 
     DcMotor leftMotor;    //backdrive
     DcMotor rightMotor;   //backdrive
@@ -105,16 +105,15 @@ public class armAUTO extends LinearOpMode {
         //Raise Arm
         //raiseArm (100);
         //Backwards/
-         moveBackwards(1400);
-        //turnRight
-        turnRight(500);
+        moveBackwards(1425);
+        //turnLeft
+        turnLeft(500);
         //Forward
         moveForward(600);
-        //dropping block
         openServo();
-        //Backwards
+        //Forward
         moveBackwards(200);
-        //blue//
+        //red//
     }
 
 }
