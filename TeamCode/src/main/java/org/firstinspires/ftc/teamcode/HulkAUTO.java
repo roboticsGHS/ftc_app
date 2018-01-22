@@ -22,35 +22,36 @@ public class HulkAUTO extends LinearOpMode {
     DcMotor leftBack;
     DcMotor rightBack;
     DcMotor liftArm;
-    Servo grabber;
+    Servo arm_servo;
     CRServo extend_servo; //grabber
 
     public void moveForward(int time) throws InterruptedException {
-        leftFront.setPower(0.5);
+        leftFront.setPower(-0.5);
         rightFront.setPower(0.5);
-        leftBack.setPower(0.5);
+        leftBack.setPower(-0.5);
         rightBack.setPower(0.5);
         Thread.sleep(time);
     }
     public void moveBackwards(int time) throws InterruptedException {
-        leftFront.setPower(-0.5);
+        leftFront.setPower(0.5);
         rightFront.setPower(-0.5);
-        leftBack.setPower(-0.5);
+        leftBack.setPower(0.5);
         rightBack.setPower(-0.5);
         Thread.sleep(time);
 
     }
 
     public void runOpMode() throws InterruptedException {
-        rightFront = hardwareMap.dcMotor.get("rightMotor");
-        leftFront = hardwareMap.dcMotor.get("leftMotor");
-        leftBack = hardwareMap.dcMotor.get ("leftLift");
-        rightBack = hardwareMap.dcMotor.get ("rightLift");
-        grabber = hardwareMap.servo.get ("grabber");
+        rightFront = hardwareMap.dcMotor.get("rightFront");
+        leftFront = hardwareMap.dcMotor.get("leftFront");
+        leftBack = hardwareMap.dcMotor.get ("leftBack");
+        rightBack = hardwareMap.dcMotor.get ("rightBack");
+        liftArm = hardwareMap.dcMotor.get ("liftArm");
+        arm_servo = hardwareMap.servo.get ("armServo");
         extend_servo = hardwareMap.crservo.get ("extendServo");
 
         //Backwards
-        moveBackwards(2500);
+        moveBackwards(1100);
 
 
 

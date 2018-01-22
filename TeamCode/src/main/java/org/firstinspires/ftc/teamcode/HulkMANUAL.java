@@ -13,8 +13,8 @@ import com.qualcomm.robotcore.util.Range;
  * Enables control of the robot via the gamepad
  */
 
-@TeleOp(name="HulkMANUAL", group="HulkMANUAL")  // @Autonomous(...) is the other common choice
-//@Disabled
+@TeleOp(name="HulkMANUAL", group="HulkMANUAL")
+
 public class HulkMANUAL extends OpMode {
 
     /*
@@ -86,7 +86,7 @@ public class HulkMANUAL extends OpMode {
 
         liftArm = hardwareMap.dcMotor.get("liftArm");
 
-        //arm_servo = hardwareMap.crservo.get("armServo");
+        arm_servo = hardwareMap.servo.get("armServo");
         extend_servo = hardwareMap.crservo.get("extendServo");
 
         leftBack = hardwareMap.dcMotor.get("leftBack");
