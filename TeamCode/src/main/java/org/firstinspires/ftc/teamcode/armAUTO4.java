@@ -111,7 +111,7 @@ public class armAUTO4 extends LinearOpMode {
         //Strafe
         moveRight(25);
         //Forward
-        moveForward(500);
+        moveForward(550);
         openServo();
         //Forward
         moveBackwards(200);

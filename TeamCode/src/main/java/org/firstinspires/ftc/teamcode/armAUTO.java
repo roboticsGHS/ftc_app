@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.RobotLog;
 
 /**
  * TeleOp Mode
@@ -25,6 +28,28 @@ public class armAUTO extends LinearOpMode {
     DcMotor ClawArm;
     Servo servo;  //grabbers
     Servo servo2; //grabbers
+    Servo servo3; //color sensor servo
+    ModernRoboticsI2cColorSensor colorSensor; //sensor
+
+    //Variables init
+    int heading = 0;
+    double position = 0.5;
+
+    public void blueJewel (int time) throws InterruptedException {
+        servo3.setPosition(0.0);
+        boolean isBlue = colorSensor.blue() > 0;
+        if (isBlue)
+        {
+          //  moveForward(2000);
+            closeServo();
+        }
+        else
+        {
+            //moveBackwards(1000);
+            openServo();
+        }
+        servo3.setPosition(1);
+    }
 
     public void moveForward(int time) throws InterruptedException {
         leftMotor.setPower(-0.5);
@@ -99,9 +124,11 @@ public class armAUTO extends LinearOpMode {
         rightLift = hardwareMap.dcMotor.get ("rightLift");
         servo = hardwareMap.servo.get ("servo");
         servo2 = hardwareMap.servo.get ("servo2");
+        servo3 = hardwareMap.servo.get ("servo3");
+        colorSensor = (ModernRoboticsI2cColorSensor) hardwareMap.colorSensor.get("colorSensor");
 
         //Grab Bloc
-        closeServo();
+        openServo();/*
         //Raise Arm
         //raiseArm (100);
         //Backwards/
@@ -115,6 +142,8 @@ public class armAUTO extends LinearOpMode {
         //Backwards
         moveBackwards(200);
         //blue//
+        */
+        blueJewel(100);
     }
 
 }

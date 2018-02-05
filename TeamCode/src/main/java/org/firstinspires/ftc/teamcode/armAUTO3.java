@@ -4,8 +4,11 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
+
 
 /**
  * TeleOp Mode
@@ -25,6 +28,8 @@ public class armAUTO3 extends LinearOpMode {
     DcMotor ClawArm;
     Servo servo;  //grabbers
     Servo servo2; //grabbers
+    Servo servo3; //color sensor
+    ModernRoboticsI2cColorSensor colorSensor; //sensor
 
     public void moveForward(int time) throws InterruptedException {
         leftMotor.setPower(-0.5);
@@ -99,6 +104,7 @@ public class armAUTO3 extends LinearOpMode {
         rightLift = hardwareMap.dcMotor.get ("rightLift");
         servo = hardwareMap.servo.get ("servo");
         servo2 = hardwareMap.servo.get ("servo2");
+        servo3 = hardwareMap.servo.get ("servo3");
 
         //Grab Bloc
         closeServo();
@@ -111,7 +117,7 @@ public class armAUTO3 extends LinearOpMode {
         //Strafe
         moveLeft(25);
         //Forward
-        moveForward(500);
+        moveForward(550);
         openServo();
         //Forward
         moveBackwards(200);

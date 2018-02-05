@@ -145,7 +145,7 @@ public class armMANUAL extends OpMode {
         rightMotor.setPower(right_move_value/2);
         leftMotor.setPower(left_move_value/2);
 
-        ClawArm.setPower(claw_pos);
+        ClawArm.setPower(claw_pos/1.5);
         //ClawArm.setPower(claw_neg);
 
         leftLift.setPower(lift_pos);
