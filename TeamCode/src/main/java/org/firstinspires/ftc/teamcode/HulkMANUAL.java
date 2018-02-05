@@ -174,7 +174,7 @@ public class HulkMANUAL extends OpMode {
             // the gripper grabber.
             servoPosition -= speed;
 
-        arm_servo.setPosition(servoPosition/2);
+        arm_servo.setPosition(servoPosition);
         servoPosition  = Range.clip(servoPosition, 0, 1);
 
         /*if (gamepad1.b)
