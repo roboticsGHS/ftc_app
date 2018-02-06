@@ -25,7 +25,7 @@ public class armAUTO extends LinearOpMode {
     DcMotor rightFront;   //frontdrive
     DcMotor leftLift;
     DcMotor rightLift;
-    DcMotor ClawArm;
+    DcMotor clawArm;
     Servo servo;  //grabbers
     Servo servo2; //grabbers
     Servo servo3; //color sensor servo
@@ -35,18 +35,24 @@ public class armAUTO extends LinearOpMode {
     int heading = 0;
     double position = 0.5;
 
-    public void blueJewel (int time) throws InterruptedException {
-        servo3.setPosition(0.0);
+    public void blueJewel () throws InterruptedException {
+        servo3.setPosition(0.5);
         boolean isBlue = colorSensor.blue() > 0;
+        Thread.sleep(1000);
         if (isBlue)
         {
-          //  moveForward(2000);
-            closeServo();
+            moveForward(100);
+            Thread.sleep(1000);
+            moveBackwards(100);
+            Thread.sleep(1000);
         }
         else
         {
-            //moveBackwards(1000);
-            openServo();
+            moveBackwards(100);
+            Thread.sleep(1000);
+            moveForward(100);
+            Thread.sleep(1000);
+
         }
         servo3.setPosition(1);
     }
@@ -106,12 +112,12 @@ public class armAUTO extends LinearOpMode {
     }
 
     public void raiseArm(int time) throws InterruptedException {
-        ClawArm.setPower(0.5);
+        clawArm.setPower(0.5);
         Thread.sleep(time);
     }
 
     public void lowerArm(int time) throws InterruptedException {
-        ClawArm.setPower(-0.5);
+        clawArm.setPower(-0.5);
         Thread.sleep(time);
     }
 
@@ -122,16 +128,19 @@ public class armAUTO extends LinearOpMode {
         leftFront = hardwareMap.dcMotor.get("leftFront");
         leftLift = hardwareMap.dcMotor.get ("leftLift");
         rightLift = hardwareMap.dcMotor.get ("rightLift");
+        clawArm = hardwareMap.dcMotor.get("clawArm");
         servo = hardwareMap.servo.get ("servo");
         servo2 = hardwareMap.servo.get ("servo2");
         servo3 = hardwareMap.servo.get ("servo3");
         colorSensor = (ModernRoboticsI2cColorSensor) hardwareMap.colorSensor.get("colorSensor");
 
         //Grab Bloc
-        openServo();/*
+        closeServo();
         //Raise Arm
-        //raiseArm (100);
-        //Backwards/
+        raiseArm (150);
+        //Blue Jewel
+        blueJewel();
+        //Backwards
          moveBackwards(1400);
         //turnRight
         turnRight(500);
@@ -141,9 +150,6 @@ public class armAUTO extends LinearOpMode {
         openServo();
         //Backwards
         moveBackwards(200);
-        //blue//
-        */
-        blueJewel(100);
     }
 
 }
