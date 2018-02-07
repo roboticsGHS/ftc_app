@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.RobotLog;
 
 /**
  * TeleOp Mode
@@ -22,9 +25,37 @@ public class armAUTO2 extends LinearOpMode {
     DcMotor rightFront;   //frontdrive
     DcMotor leftLift;
     DcMotor rightLift;
-    DcMotor ClawArm;
+    DcMotor clawArm;
     Servo servo;  //grabbers
     Servo servo2; //grabbers
+    Servo servo3; //color sensor servo
+    ModernRoboticsI2cColorSensor colorSensor; //sensor
+
+    //Variables init
+    int heading = 0;
+    double position = 0.5;
+
+    public void blueJewel () throws InterruptedException {
+        servo3.setPosition(0.5);
+        boolean isBlue = colorSensor.blue() > 0;
+        Thread.sleep(1000);
+        if (isBlue)
+        {
+            moveForward(100);
+            Thread.sleep(1000);
+            moveBackwards(100);
+            Thread.sleep(1000);
+        }
+        else
+        {
+            moveBackwards(100);
+            Thread.sleep(1000);
+            moveForward(100);
+            Thread.sleep(1000);
+
+        }
+        servo3.setPosition(1);
+    }
 
     public void moveForward(int time) throws InterruptedException {
         leftMotor.setPower(-0.5);
@@ -81,12 +112,12 @@ public class armAUTO2 extends LinearOpMode {
     }
 
     public void raiseArm(int time) throws InterruptedException {
-        ClawArm.setPower(0.5);
+        clawArm.setPower(0.5);
         Thread.sleep(time);
     }
 
     public void lowerArm(int time) throws InterruptedException {
-        ClawArm.setPower(-0.5);
+        clawArm.setPower(-0.5);
         Thread.sleep(time);
     }
 
@@ -97,8 +128,12 @@ public class armAUTO2 extends LinearOpMode {
         leftFront = hardwareMap.dcMotor.get("leftFront");
         leftLift = hardwareMap.dcMotor.get ("leftLift");
         rightLift = hardwareMap.dcMotor.get ("rightLift");
+        clawArm = hardwareMap.dcMotor.get("clawArm");
         servo = hardwareMap.servo.get ("servo");
         servo2 = hardwareMap.servo.get ("servo2");
+        servo3 = hardwareMap.servo.get ("servo3");
+        colorSensor = (ModernRoboticsI2cColorSensor) hardwareMap.colorSensor.get("colorSensor");
+
 
         //Grab Bloc
         closeServo();

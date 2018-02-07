@@ -10,7 +10,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.RobotLog;
 
-
 /**
  * TeleOp Mode
  * <p>
@@ -42,18 +41,21 @@ public class armAUTO4 extends LinearOpMode {
         Thread.sleep(1000);
         if (isBlue)
         {
-            moveForward(500);
-            moveBackwards(500);
+            moveForward(100);
+            Thread.sleep(1000);
+            moveBackwards(100);
+            Thread.sleep(1000);
         }
         else
         {
-            moveBackwards(500);
-            moveForward(500);
+            moveBackwards(100);
+            Thread.sleep(1000);
+            moveForward(100);
+            Thread.sleep(1000);
 
         }
         servo3.setPosition(1);
     }
-
 
     public void moveForward(int time) throws InterruptedException {
         leftMotor.setPower(-0.5);
@@ -129,6 +131,7 @@ public class armAUTO4 extends LinearOpMode {
         clawArm = hardwareMap.dcMotor.get("clawArm");
         servo = hardwareMap.servo.get ("servo");
         servo2 = hardwareMap.servo.get ("servo2");
+        servo3 = hardwareMap.servo.get ("servo3");
         colorSensor = (ModernRoboticsI2cColorSensor) hardwareMap.colorSensor.get("colorSensor");
 
         //Grab Block
