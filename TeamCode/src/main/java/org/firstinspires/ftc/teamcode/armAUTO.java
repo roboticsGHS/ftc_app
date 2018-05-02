@@ -29,95 +29,109 @@ public class armAUTO extends LinearOpMode {
     Servo servo;  //grabbers
     Servo servo2; //grabbers
     Servo servo3; //color sensor servo
-    ModernRoboticsI2cColorSensor colorSensor; //sensor
+    //ColorSensor colorSensor; //sensor
+    ColorSensor revColor;
+
 
     //Variables init
     int heading = 0;
-    double position = 0.5;
+    double position = 1;
 
-    public void blueJewel () throws InterruptedException {
-        servo3.setPosition(0.5);
-        boolean isBlue = colorSensor.blue() > 0;
-        Thread.sleep(1000);
-        if (isBlue)
-        {
-            moveForward(100);
-            Thread.sleep(1000);
-            moveBackwards(100);
-            Thread.sleep(1000);
-        }
-        else
-        {
-            moveBackwards(100);
-            Thread.sleep(1000);
-            moveForward(100);
-            Thread.sleep(1000);
+    public void blueJewel() throws InterruptedException {
+        servo3.setPosition(0);
+        RobotLog.a("**************************************** REV COLOR READING - red: " + revColor.red() + " -- blue: " + revColor.blue());
+        boolean isBlue = revColor.blue() > revColor.red();
+        Thread.sleep(3000);
+        RobotLog.a("**************************************** REV COLOR READING - red: " + revColor.red() + " -- blue: " + revColor.blue());
+        if (revColor.blue() > revColor.red()) {
+            turnRight(50);
+          //  Thread.sleep(1000);
+            servo3.setPosition(0.5);
+          //  Thread.sleep(1000);
+            turnLeft(50);
+          //  Thread.sleep(1000);
+        } else {
+           turnLeft(50);
+           // Thread.sleep(1000);
+            raiseSensor();
+          //  Thread.sleep(1000);
+            turnRight(50);
+         //   Thread.sleep(1000);
+          //  moveForward(50);
+         //   Thread.sleep(1000);
 
         }
-        servo3.setPosition(1);
     }
 
     public void moveForward(int time) throws InterruptedException {
-        leftMotor.setPower(-0.5);
-        rightMotor.setPower(0.5);
-        leftFront.setPower(0.5);
-        rightFront.setPower(-0.5);
+        leftMotor.setPower(-0.3);
+        rightMotor.setPower(0.3);
+        leftFront.setPower(-0.3);
+        rightFront.setPower(0.3);
         Thread.sleep(time);
     }
 
     public void moveRight(int time) throws InterruptedException {
-        leftLift.setPower(0.5);
-        rightLift.setPower(-0.5);
+        leftLift.setPower(0.3);
+        rightLift.setPower(-0.3);
         Thread.sleep(time);
     }
 
     public void moveLeft(int time) throws InterruptedException {
-        leftLift.setPower(-0.5);
-        rightLift.setPower(0.5);
+        leftLift.setPower(-0.3);
+        rightLift.setPower(0.3);
         Thread.sleep(time);
     }
 
     public void moveBackwards(int time) throws InterruptedException {
-        leftMotor.setPower(0.5);
-        rightMotor.setPower(-0.5);
-        leftFront.setPower(-0.5);
-        rightFront.setPower(0.5);
+        leftMotor.setPower(0.3);
+        rightMotor.setPower(-0.3);
+        leftFront.setPower(0.3);
+        rightFront.setPower(-0.3);
         Thread.sleep(time);
     }
 
     public void turnRight(int time) throws InterruptedException {
-        rightMotor.setPower(-0.5);
-        rightFront.setPower(0.5);
-        leftMotor.setPower(-0.5);
-        leftFront.setPower(0.5);
+        rightMotor.setPower(-0.3);
+        rightFront.setPower(-0.3);
+        leftMotor.setPower(-0.3);
+        leftFront.setPower(-0.3);
         Thread.sleep(time);
     }
 
     public void turnLeft(int time) throws InterruptedException {
-        rightMotor.setPower(0.5);
-        rightFront.setPower(-0.5);
-        leftMotor.setPower(0.5);
-        leftFront.setPower(-0.5);
+        rightMotor.setPower(0.3);
+        rightFront.setPower(0.3);
+        leftMotor.setPower(0.3);
+        leftFront.setPower(0.3);
         Thread.sleep(time);
     }
 
     public void openServo() {
-        servo.setPosition(0.2); //left servo needs to be lower number to open
-        servo2.setPosition(0.8); //right servo needs to be a higher number to open
+        servo.setPosition(0.9); //left servo needs to be lower number to open
+        servo2.setPosition(0.1); //right servo needs to be a higher number to open
     }
 
     public void closeServo() {
-        servo.setPosition(0.9); //left servo needs to be higher number to close
-        servo2.setPosition(0.1); //right servo needs to be a low number to close
+        servo.setPosition(0.1); //left servo needs to be higher number to close
+        servo2.setPosition(0.9); //right servo needs to be a low number to close
     }
 
     public void raiseArm(int time) throws InterruptedException {
-        clawArm.setPower(0.5);
+        clawArm.setPower(0.25);
         Thread.sleep(time);
     }
 
     public void lowerArm(int time) throws InterruptedException {
-        clawArm.setPower(-0.5);
+        clawArm.setPower(-0.3);
+        Thread.sleep(time);
+    }
+
+    public void raiseSensor() {
+        servo3.setPosition(0.9);
+    }
+
+    public void waitTime (int time) throws InterruptedException {
         Thread.sleep(time);
     }
 
@@ -132,24 +146,37 @@ public class armAUTO extends LinearOpMode {
         servo = hardwareMap.servo.get ("servo");
         servo2 = hardwareMap.servo.get ("servo2");
         servo3 = hardwareMap.servo.get ("servo3");
-        colorSensor = (ModernRoboticsI2cColorSensor) hardwareMap.colorSensor.get("colorSensor");
+        //colorSensor = (ModernRoboticsI2cColorSensor) hardwareMap.colorSensor.get("colorSensor");
+        //colorSensor = hardwareMap.colorSensor.get("colorSensor");
+        revColor = hardwareMap.colorSensor.get("revColor");
 
-        //Grab Bloc
+        waitForStart();
+        //Grab Block
         closeServo();
         //Raise Arm
-        raiseArm (150);
+        raiseArm (50);
+        waitTime(1000);
         //Blue Jewel
         blueJewel();
+        //Raise Sensor
+        //raiseSensor();
+        //wait
+      //  waitTime(1000);
         //Backwards
-         moveBackwards(1400);
+        moveBackwards(2500);
         //turnRight
-        turnRight(500);
+        turnRight(50);
         //Forward
-        moveForward(600);
+        waitTime(1000);
+        moveForward(175);
+        //lower arm
+        lowerArm(100);
+        //wsit
+        waitTime(1000);
         //dropping block
         openServo();
         //Backwards
-        moveBackwards(200);
+        moveBackwards(350);
     }
 
 }

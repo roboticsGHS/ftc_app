@@ -25,11 +25,12 @@ public class HulkMANUAL extends OpMode {
     // TETRIX VALUES.
     //final static double ARM_MIN_RANGE  = 0.20;
     //final static double ARM_MAX_RANGE  = 0.90;
-    final static double CLAW_MIN_RANGE  = 0.20;
-    final static double CLAW_MAX_RANGE  = 0.6;
+    //final static double CLAW_MIN_RANGE  = 0.20;
+    //final static double CLAW_MAX_RANGE  = 0.6;
 
     // position of the arm grabber.
     double servoPosition;
+    double servoPosition2;
     double speed = .02;
     //double servoPosition2;
 
@@ -40,7 +41,8 @@ public class HulkMANUAL extends OpMode {
     DcMotor rightBack;
     DcMotor liftArm;
     Servo arm_servo;
-    CRServo extend_servo; //grabber
+    Servo arm_servo2;
+    CRServo extend_servo; //grabber arm
 
     //OpticalDistanceSensor distance;
     //ModernRoboticsI2cGyro gyro;
@@ -87,26 +89,17 @@ public class HulkMANUAL extends OpMode {
         liftArm = hardwareMap.dcMotor.get("liftArm");
 
         arm_servo = hardwareMap.servo.get("armServo");
+        arm_servo2 = hardwareMap.servo.get ("armServo2");
         extend_servo = hardwareMap.crservo.get("extendServo");
 
         leftBack = hardwareMap.dcMotor.get("leftBack");
         rightBack = hardwareMap.dcMotor.get("rightBack");
         rightBack.setDirection(DcMotor.Direction.REVERSE);
 
-        //lineFollower = hardwareMap.opticalDistanceSensor.get("lineFollower");
-        //distance = hardwareMap.opticalDistanceSensor.get("distance");
-        //colorSensor = hardwareMap.colorSensor.get("colorSensor");
-        //gyro = (ModernRoboticsI2cGyro) hardwareMap.gyroSensor.get("gyro");
-
-        //grabber = hardwareMap.servo.get("grabber");
-        //grabber.setPosition(servoPosition);
-
-        //grabber = hardwareMap.grabber.get("grabber");
-        //grabber.setPosition(servoPosition);
 
         // assign the starting position of the wrist and claw
-        servoPosition = .4;
-        //extendPosition = .4;
+        servoPosition = 0.5;
+        servoPosition2 = 0.5;
 
     }
 
@@ -126,7 +119,6 @@ public class HulkMANUAL extends OpMode {
         float grabber_lift_neg = -gamepad2.left_trigger;
 
         float grabber_extend_value = gamepad2.left_stick_y;
-        //float grabber_servo_arm = gamepad2.right_stick_y;
 
         // clip the right/left values so that the values never exceed +/- 1
         left_move_value = Range.clip(left_move_value, -1, 1);
@@ -144,20 +136,15 @@ public class HulkMANUAL extends OpMode {
         grabber_extend_value = Range.clip(grabber_extend_value,-1, 1);
         grabber_extend_value = (float)scaleInput(grabber_extend_value);
 
-       // grabber_servo_arm = Range.clip(grabber_servo_arm,-1, 1);
-        // grabber_servo_arm = (float)scaleInput(grabber_servo_arm);
-
         extend_servo.setPower(grabber_extend_value);
-        //arm_servo.setPower (grabber_servo_arm);
-
 
 
         // write the values to the motors
-        rightBack.setPower(right_move_value);
-        leftBack.setPower(left_move_value);
+        rightBack.setPower(right_move_value/2);
+        leftBack.setPower(left_move_value/2);
 
-        rightFront.setPower(right_move_value);
-        leftFront.setPower(left_move_value);
+        rightFront.setPower(right_move_value/2);
+        leftFront.setPower(left_move_value/2);
 
         liftArm.setPower(grabber_lift_pos);
         liftArm.setPower (grabber_lift_neg);
@@ -165,7 +152,7 @@ public class HulkMANUAL extends OpMode {
 
 
         // update the position of the gripper arm
-        if (gamepad2.a)
+        if (gamepad2.x)
             // if the A button is pushed on gamepad1, increment the position of
             // the gripper grabber.
             servoPosition += speed;
@@ -174,36 +161,20 @@ public class HulkMANUAL extends OpMode {
             // the gripper grabber.
             servoPosition -= speed;
 
+        if (gamepad2.b)
+            // if the A button is pushed on gamepad1, increment the position of
+            // the gripper grabber.
+        servoPosition2 += speed;
+        if (gamepad2.a)
+            // if the B button is pushed on5 gamepad1, decrease the position of
+            // the gripper grabber.
+        servoPosition2 -= speed;
+
         arm_servo.setPosition(servoPosition);
         servoPosition  = Range.clip(servoPosition, 0, 1);
+        arm_servo2.setPosition(servoPosition2);
+        servoPosition2  = Range.clip(servoPosition2, 0, 1);
 
-        /*if (gamepad1.b)
-            // if the X button is pushed on gamepad1, increment the position of
-            // the griper grabber.
-            servoPosition2 += speed;
-
-        else if (gamepad1.x)
-            // if the Y button is pushed on5 gamepad1, decrease the position of
-//            // the gripper grabber.
-        {
-            servoPosition2 -= speed;
-        }*/
-
-       //servo2.setPosition(servoPosition2/2);
-       //servoPosition2  = Range.clip(servoPosition2, 0, 1);
-
-      /*
-       * Send telemetry data back to driver station. Note that if we are using
-       * a legacy NXT-compatible motor controller, then the getPower() method
-       * will return a null value. The legacy NXT-compatible motor controllers
-       * are currently write only.
-       */
-
-      /*if ( button.isPressed() ) {
-
-
-
-        }*/
 
         telemetry.addData("Text", "*** Robot Data***");
         telemetry.addData("left tgt pwr",  "left  pwr: " + String.format("%.2f", left_move_value));
